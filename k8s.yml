@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-backend-jenkins # <-- Cambiado aquí
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs-backend-jenkins # <-- Cambiado aquí
+  template:
+    metadata:
+      labels:
+        app: nodejs-backend-jenkins # <-- Cambiado aquí
+    spec:
+      containers:
+      - name: nodejs-backend-jenkins # <-- Cambiado aquí
+        # Aún falta reemplazar lo del ACR aquí:
+        image: acrinfanzon.azurecr.io/nodejs-backend-jenkins:latest 
+        ports:
+        - containerPort: 3000 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-backend-jenkins-svc # <-- Cambiado aquí
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodejs-backend-jenkins # <-- Cambiado aquí
+  ports:
+  - port: 80
+    targetPort: 3000
