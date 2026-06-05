@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'devops-agent:latest'
+            // Este argumento es vital para que puedas usar comandos de docker dentro del agente
+            args '-v /var/run/docker.sock:/var/run/docker.sock' 
+        }
+    }
     
     environment {
         // Variables vinculadas a las credenciales creadas en el Lab 7
